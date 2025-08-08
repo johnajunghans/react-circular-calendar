@@ -6,7 +6,7 @@ import type { Event } from "../types/event";
 // Type for ritual instance arc props - Event without activeWheels
 type RitualInstanceArcProps = Omit<Event<never>, 'activeWheels'>;
 
-export default memo(function RitualInstanceSector({ 
+export default memo(function RitualInstanceArc({ 
     startAngle,
     endAngle,
     title,
@@ -27,7 +27,7 @@ export default memo(function RitualInstanceSector({
 
     const { state } = useWheelContext()
 
-    if (!state) return
+    if (!state) return null
 
     const center = state.dimensions.center
     const outerCircleRadius = state.dimensions.outerCircleRadius

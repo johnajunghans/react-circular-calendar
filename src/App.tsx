@@ -158,7 +158,7 @@ function App() {
     <div 
       id='wheel-container'
       ref={ref}
-      className='h-[900px]'
+      style={{ height: 900 }}
     >
       <WheelProvider>
         <WheelMain 

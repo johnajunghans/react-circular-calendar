@@ -24,6 +24,10 @@ interface WheelFunctionProps<T extends readonly string[]> {
     eventTextClassName?: string;
     ariaLabel?: string;
 
+    // Class slots for grouping
+    eventsGroupClassName?: string;
+    selectorGroupClassName?: string;
+
     // ----------- SELECTOR PROPS ------------ // 
     useSelector?: boolean;
     wheels?: T; // readonly string array that will determine T
@@ -80,6 +84,9 @@ export default function WheelFunction<T extends readonly string[]>({
     eventTextClassName,
     ariaLabel,
 
+    eventsGroupClassName,
+    selectorGroupClassName,
+
     selectorPathClassName,
     selectorActivePathClassName,
     selectorTextClassName,
@@ -120,10 +127,11 @@ export default function WheelFunction<T extends readonly string[]>({
     }
 
     // filters events based on if they include the activeWheel
-    const activeEvents = useMemo(
-      () => events.filter(event => event.activeWheels.includes(activeWheel!)),
-      [events, activeWheel]
-    );
+    const activeEvents = useMemo(() => {
+        if (!useSelector) return events
+        if (!activeWheel) return []
+        return events.filter(event => event.activeWheels.includes(activeWheel))
+    }, [events, activeWheel, useSelector]);
 
     return (
         <>
@@ -131,33 +139,36 @@ export default function WheelFunction<T extends readonly string[]>({
             {svgDefs}
 
             {/* Event Mapping */}
-            {activeEvents.map(event => (
-                <RitualInstanceArc 
-                    key={`${event.title}-${event.startAngle}-${event.endAngle}`}
-                    
-                    startAngle={event.startAngle}
-                    endAngle={event.endAngle}
-                    title={event.title}
-
-                    onClick={event.onClick || onClick}
-                    onMouseEnter={event.onMouseEnter || onMouseEnter}
-                    onMouseLeave={event.onMouseLeave || onMouseLeave}
-
-                    cornerRadius={event.cornerRadius || eventCornerRadius}
-                    padAngle={event.padAngle || eventPadAngle}
-                    radialPadding={event.radialPadding || eventRadialPadding}
-
-                    fillColor={event.fillColor || eventFillColor}
-                    stroke={event.stroke || eventStrokeColor}
-                    strokeWidth={event.strokeWidth || eventStrokeWidth}
-                    pathClassName={event.pathClassName || eventPathClassName}
-                    textClassName={event.textClassName || eventTextClassName}
-                    ariaLabel={event.ariaLabel || ariaLabel}
-                />
-            ))}
+            <g className={eventsGroupClassName}>
+                {activeEvents.map(event => (
+                    <RitualInstanceArc 
+                        key={`${event.title}-${event.startAngle}-${event.endAngle}`}
+                        
+                        startAngle={event.startAngle}
+                        endAngle={event.endAngle}
+                        title={event.title}
+                        
+                        onClick={event.onClick || onClick}
+                        onMouseEnter={event.onMouseEnter || onMouseEnter}
+                        onMouseLeave={event.onMouseLeave || onMouseLeave}
+                        
+                        cornerRadius={event.cornerRadius || eventCornerRadius}
+                        padAngle={event.padAngle || eventPadAngle}
+                        radialPadding={event.radialPadding || eventRadialPadding}
+                        
+                        fillColor={event.fillColor || eventFillColor}
+                        stroke={event.stroke || eventStrokeColor}
+                        strokeWidth={event.strokeWidth || eventStrokeWidth}
+                        pathClassName={event.pathClassName || eventPathClassName}
+                        textClassName={event.textClassName || eventTextClassName}
+                        ariaLabel={event.ariaLabel || ariaLabel}
+                    />
+                ))}
+            </g>
 
             {/* Selector Component */}
             {useSelector && 
+                <g className={selectorGroupClassName}>
                 <WheelDaySelector 
                 
                     // These three values must be defined if the code has reached this point (error handling above verifies this)
@@ -189,6 +200,7 @@ export default function WheelFunction<T extends readonly string[]>({
 
                     
                 />
+                </g>
             }
 
         </>

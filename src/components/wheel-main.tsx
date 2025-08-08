@@ -3,7 +3,13 @@ import WheelOutline from "./wheel-outline";
 import useResize from "../hooks/use-resize";
 import { useWheelContext } from "../context/wheel-provider";
 
-interface MainProps {
+/**
+ * WheelMain – top-level SVG canvas and outline renderer for the circular calendar.
+ *
+ * Handles responsive sizing using the parent container ref and provides
+ * a consistent outline (either solid sectors or lines) around the wheel.
+ */
+export interface WheelMainProps {
     // Required functionality props
     children: ReactNode;
     parentRef: RefObject<HTMLDivElement | null>; // ref of parent div which svg which resize to fit
@@ -16,10 +22,19 @@ interface MainProps {
     outlineRenderingMethod?: "sector" | "line"; // determines how the outline will be rendered. A value of 'sector' creates fully bound sectors allowing the hole in the middle to show the background. A value of 'line' uses lines and circles to create sectors but the hole in the middle needs to have the background manually set. Default "sector".
 
     // Styling props
+    svgClassName?: string; // class applied to the root <svg>
     bgColor?: string; // default black
     innerCircleBg?: string; // fill color for inner circle when rendering method is set to 'line'
     stroke?: string // default white, ideally should not be an opacity < 1 value (overlapping svg line segments creates inconsistent shades with opacity < 1)
     strokeWidth?: number // default 1
+
+    // Outline/marker className slots (take precedence over color props above)
+    outlineSectorClassName?: string;
+    outlineDividerLineClassName?: string;
+    outerCircleClassName?: string;
+    innerCircleClassName?: string;
+    markerTickClassName?: string;
+    markerTextClassName?: string;
 
     // Dimension props
     minDimensions?: number; // minimum size of svg
@@ -39,16 +54,23 @@ export default function WheelMain({
     minDimensions=0,
     maxDimensions=9999,
     resizeDebounceDelay=100,
+    svgClassName,
     bgColor="black",
     stroke="white",
     strokeWidth=1,
     outlineRenderingMethod="sector",
     innerCircleBg="black",
-}: MainProps) {
+    outlineSectorClassName,
+    outlineDividerLineClassName,
+    outerCircleClassName,
+    innerCircleClassName,
+    markerTickClassName,
+    markerTextClassName,
+}: WheelMainProps) {
 
     const { state, dispatch } = useWheelContext()
 
-    console.log("wheel main rerendered")
+    // Avoid noisy renders in consumer apps
 
     // custom resize hook call
     const limitingDimension = useResize(parentRef, {
@@ -64,14 +86,14 @@ export default function WheelMain({
         }
     }, [limitingDimension])
 
-    if (!state || !limitingDimension) return
+    if (!state || !limitingDimension) return null
 
     const center = state.dimensions.center
     const outerCircleRadius = state.dimensions.outerCircleRadius
     const innerCircleRadius = state.dimensions.innerCircleRadius
 
     return (
-        <svg width={limitingDimension} height={limitingDimension} overflow="visible" className={`mx-2 transition-[blur] duration-200`}>
+        <svg width={limitingDimension} height={limitingDimension} overflow="visible" className={svgClassName}>
             <WheelOutline 
                 center={center} 
                 outerCircleRadius={outerCircleRadius}
@@ -85,6 +107,12 @@ export default function WheelMain({
                 startingPoint={startingPoint}
                 outlineRenderingMethod={outlineRenderingMethod}
                 innerCircleBg={innerCircleBg}
+                sectorClassName={outlineSectorClassName}
+                dividerLineClassName={outlineDividerLineClassName}
+                outerCircleClassName={outerCircleClassName}
+                innerCircleClassName={innerCircleClassName}
+                markerTickClassName={markerTickClassName}
+                markerTextClassName={markerTextClassName}
             />
             { children }
         </svg>

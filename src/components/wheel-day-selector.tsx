@@ -3,7 +3,9 @@ import { type Dispatch, type KeyboardEvent, type MouseEvent, type ReactNode, typ
 import { generateArcSequence } from "../functions/wheel-calculation-functions";
 import { useWheelContext } from "../context/wheel-provider";
 
-interface WheelDaySelectorProps<T extends readonly string[]> {
+// (single, exported) props interface lives below for public API
+
+export interface WheelDaySelectorProps<T extends readonly string[]> {
     // required props
     wheels: T;
     activeWheel: T[number];
@@ -69,7 +71,7 @@ export default memo(function WheelDaySelector<T extends readonly string[]>({
 
     const { state } = useWheelContext()
 
-    if (!state) return
+    if (!state) return null
 
     const center = state.dimensions.center
     const innerCircleRadius = state.dimensions.innerCircleRadius
@@ -140,10 +142,10 @@ export default memo(function WheelDaySelector<T extends readonly string[]>({
     }
 
     return (
-        <g id="react-circular-calendar-celector-container">
+        <g id="react-circular-calendar-selector-container">
             {/* Path buttons */}
             <g id="selector-paths-container">
-                {wheels.map((wheel, index) => (
+                {wheels.map((wheel: T[number], index: number) => (
                     <path 
                         key={wheel}
                         role="button" 
@@ -166,7 +168,7 @@ export default memo(function WheelDaySelector<T extends readonly string[]>({
 
             {/* Wheel Labels */}
             <g id="selector-text-container">
-                {wheelsArray.map((wheel, index) => {
+                {wheelsArray.map((wheel: T[number], index: number) => {
                     const angle = 360 / wheelsLength
                     const textAngle = angle * index + angle / 2 + startingAngle
                     const textRadius = useMiddleButton ? (middleButtonRadiusValue + innerCircleRadius + radialPadding) / 2 : (middleButtonRadiusValue + innerCircleRadius + radialPadding) / 1.5

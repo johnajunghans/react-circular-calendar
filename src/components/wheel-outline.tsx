@@ -16,6 +16,13 @@ interface WheelOutlineProps {
     markerStyle: "outside" | "inline" | "none";
     markers: string[];
     startingPoint: "left" | "top" | "right" | "bottom" | number
+    // className slots (take precedence over color props for relevant elements)
+    sectorClassName?: string;
+    dividerLineClassName?: string;
+    outerCircleClassName?: string;
+    innerCircleClassName?: string;
+    markerTickClassName?: string;
+    markerTextClassName?: string;
 }
 
 export default function WheelOutline({ 
@@ -30,7 +37,13 @@ export default function WheelOutline({
     markerStyle,
     markers,
     startingPoint,
-    innerCircleBg
+    innerCircleBg,
+    sectorClassName,
+    dividerLineClassName,
+    outerCircleClassName,
+    innerCircleClassName,
+    markerTickClassName,
+    markerTextClassName
 }: WheelOutlineProps) {
 
     // ------------ Outline ------------ //
@@ -53,7 +66,7 @@ export default function WheelOutline({
         if (outlineRenderingMethod === "line") {
             return (
                 <>
-                    <circle cx={center} cy={center} r={outerCircleRadius} stroke={stroke} fill={bgColor} />
+                    <circle cx={center} cy={center} r={outerCircleRadius} className={outerCircleClassName} stroke={outerCircleClassName ? undefined : stroke} fill={outerCircleClassName ? undefined : bgColor} />
                     {(pathData as LineData[]).map(line => (
                         <path 
                             key={line.angle}
@@ -61,11 +74,13 @@ export default function WheelOutline({
                                 M ${line.startInnerPoint.x} ${line.startInnerPoint.y}
                                 L ${line.startOuterPoint.x} ${line.startOuterPoint.y}
                             `}
-                            stroke={stroke}
-                            strokeWidth={strokeWidth}
+                            className={dividerLineClassName}
+                            stroke={dividerLineClassName ? undefined : stroke}
+                            strokeWidth={dividerLineClassName ? undefined : strokeWidth}
+                            fill="none"
                         />
                     ))}
-                    <circle cx={center} cy={center} r={innerCircleRadius} stroke={stroke} fill={innerCircleBg} />
+                    <circle cx={center} cy={center} r={innerCircleRadius} className={innerCircleClassName} stroke={innerCircleClassName ? undefined : stroke} fill={innerCircleClassName ? undefined : innerCircleBg} />
                 </>
             )
         } else {
@@ -80,10 +95,10 @@ export default function WheelOutline({
                             L ${sector.endInnerPoint.x} ${sector.endInnerPoint.y} 
                             A ${innerCircleRadius} ${innerCircleRadius} 1 0 0 ${sector.startInnerPoint.x} ${sector.startInnerPoint.y} 
                         `}
-                        fill={bgColor}
-                        stroke={stroke}
-                        strokeWidth={strokeWidth}
-                        className="" 
+                        className={sectorClassName}
+                        fill={sectorClassName ? undefined : bgColor}
+                        stroke={sectorClassName ? undefined : stroke}
+                        strokeWidth={sectorClassName ? undefined : strokeWidth}
                     />
                 ))
             )
@@ -125,14 +140,15 @@ export default function WheelOutline({
                                 M ${sector.startOuterPoint.x} ${sector.startOuterPoint.y}
                                 L ${outerDashPoint.x} ${outerDashPoint.y}
                             `}
-                            stroke={stroke}
-                            strokeWidth={strokeWidth}
+                            className={markerTickClassName}
+                            stroke={markerTickClassName ? undefined : stroke}
+                            strokeWidth={markerTickClassName ? undefined : strokeWidth}
                         />
                         <text
                             x={textPosition.x}
                             y={textPosition.y} 
-                            className="text-xs"
-                            fill={stroke}
+                            className={markerTextClassName}
+                            fill={markerTextClassName ? undefined : stroke}
                             alignmentBaseline={alignmentBaseline}
                             textAnchor={textAnchor}
                         >{marker}</text> 

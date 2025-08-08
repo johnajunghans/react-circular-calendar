@@ -1,12 +1,12 @@
 import { createContext, useContext, useReducer, type Dispatch, type ReactNode } from "react";
 
-type WheelDimensions = {
+export type WheelDimensions = {
     center: number;
     outerCircleRadius: number;
     innerCircleRadius: number;
 }
 
-type WheelData = {
+export type WheelData = {
     dimensions: WheelDimensions;
 } | null
 
@@ -18,7 +18,7 @@ interface WheelContext {
     dispatch: Dispatch<WheelDispatchActions>
 }
 
-interface WheelProviderProps {
+export interface WheelProviderProps {
     children: ReactNode, 
     outerCircleSize?: number, 
     innerCircleSize?: number 

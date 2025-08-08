@@ -1,29 +1,51 @@
 {
   "name": "react-circular-calendar",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "0.1.0",
+  "description": "Typed React components for a circular (wheel) calendar with events and selection.",
+  "keywords": ["react", "calendar", "circular", "wheel", "svg", "component", "library"],
+  "license": "MIT",
+  "author": "johnajunghans",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnajunghans/react-circular-calendar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/johnajunghans/react-circular-calendar/issues"
+  },
+  "homepage": "https://github.com/johnajunghans/react-circular-calendar#readme",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build && tsc -p tsconfig.build.json",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.cjs"
+    }
+  },
+  "main": "dist/index.umd.cjs",
+  "module": "dist/index.es.js",
+  "types": "dist/types/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.11",
-    "@types/d3-shape": "^3.1.7",
-    "d3-shape": "^3.2.0",
-    "install": "^0.13.0",
-    "lodash": "^4.17.21",
-    "lucide-react": "^0.536.0",
-    "npm": "^11.5.2",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "tailwindcss": "^4.1.11"
+    "d3-shape": "^3.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
-    "@types/lodash": "^4.17.20",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/d3-shape": "^3.1.7",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react-swc": "^3.10.2",
@@ -31,8 +53,14 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "jsdom": "^25.0.1",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "vitest": "^2.0.5"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
   }
 }
