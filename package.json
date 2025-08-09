@@ -21,7 +21,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "prepublishOnly": "npm run lint && npm test && npm run build"
   },
   "exports": {
     ".": {
@@ -62,5 +63,9 @@
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
   }
 }
