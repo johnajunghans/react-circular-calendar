@@ -25,7 +25,7 @@ export default memo(function RitualInstanceSector({
 
 }: RitualInstanceArcProps) {
 
-    const { state } = useWheelContext()
+    const state = useWheelContext()
 
     if (!state) return
 

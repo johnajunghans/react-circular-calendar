@@ -2,40 +2,47 @@ import type { ReactNode } from "react";
 import { useMemo } from "react";
 import { polarToRect } from "../functions/polar-coordinate-functions";
 import { generateOutlineLineData, generateOutlineSectorData, type LineData, type SectorData } from "../functions/wheel-calculation-functions";
+import { useWheelContext } from "../context/wheel-provider";
 
 interface WheelOutlineProps {
-    center: number;
-    outerCircleRadius: number;
-    innerCircleRadius: number,
+    children: ReactNode; // Should be WheelFunction
+
+    // Required Props
     numberOfSectors: number;
-    outlineRenderingMethod: "sector" | "line";
-    bgColor: string;
-    innerCircleBg: string;
-    stroke: string;
-    strokeWidth: number;
-    markerStyle: "outside" | "inline" | "none";
-    markers: string[];
-    startingPoint: "left" | "top" | "right" | "bottom" | number
+    markers?: string[];
+
+    renderMethod?: "sector" | "line";
+    bgColor?: string;
+    innerCircleBgColor?: string;
+    stroke?: string;
+    strokeWidth?: number;
+    svgClassName?: string;
+    outlineClassName?: string;
+    markerClassName?: string;
+    startingPoint: "left" | "top" | "right" | "bottom" | number;
+    
 }
 
 export default function WheelOutline({ 
-    center, 
-    outerCircleRadius,
-    innerCircleRadius,
+    children,
     numberOfSectors,
-    outlineRenderingMethod,
+    renderMethod,
     bgColor,
     stroke,
     strokeWidth,
-    markerStyle,
-    markers,
+    markers=[],
     startingPoint,
-    innerCircleBg
+    innerCircleBgColor,
+    svgClassName,
+    outlineClassName,
+    markerClassName
 }: WheelOutlineProps) {
 
-    // ------------ Outline ------------ //
+    // ------------ STATE AND PATH DATA ------------ //
 
-    // calculation of angle based on possible enum values
+    const state = useWheelContext()
+    
+    // Move all hook calls before any conditional logic
     const startingAngle = 
         startingPoint === "left" ? 0 :
         startingPoint === "top" ? 90 : 
@@ -43,17 +50,29 @@ export default function WheelOutline({
         startingPoint === "bottom" ? 270 :
         startingPoint // if it is a number
 
+    const { center, innerCircleRadius, outerCircleRadius } = state?.dimensions || { center: 0, innerCircleRadius: 0, outerCircleRadius: 0 }
+    const limitingDimension = state?.limitingDimension
+
+    // Always call useMemo, but with safe defaults when state is null
     const pathData = useMemo(() => {
-        return outlineRenderingMethod === "line"
+        if (!state || !center || !innerCircleRadius || !outerCircleRadius) {
+            return []
+        }
+        return renderMethod === "line"
             ? generateOutlineLineData(numberOfSectors, center, innerCircleRadius, outerCircleRadius)
             : generateOutlineSectorData(numberOfSectors, center, innerCircleRadius, outerCircleRadius, startingAngle);
-    }, [outlineRenderingMethod, numberOfSectors, center, innerCircleRadius, outerCircleRadius, startingAngle]);
+    }, [state, renderMethod, numberOfSectors, center, innerCircleRadius, outerCircleRadius, startingAngle]);
+
+    // Now do conditional rendering in JSX
+    if (!state) return null
+
+    // ------------ OUTLINE ------------ //
 
     const Outline = () => {
-        if (outlineRenderingMethod === "line") {
+        if (renderMethod === "line") {
             return (
                 <>
-                    <circle cx={center} cy={center} r={outerCircleRadius} stroke={stroke} fill={bgColor} />
+                    <circle cx={center} cy={center} r={outerCircleRadius} stroke={stroke} fill={bgColor} className={outlineClassName} />
                     {(pathData as LineData[]).map(line => (
                         <path 
                             key={line.angle}
@@ -63,9 +82,10 @@ export default function WheelOutline({
                             `}
                             stroke={stroke}
                             strokeWidth={strokeWidth}
+                            className={outlineClassName}
                         />
                     ))}
-                    <circle cx={center} cy={center} r={innerCircleRadius} stroke={stroke} fill={innerCircleBg} />
+                    <circle cx={center} cy={center} r={innerCircleRadius} stroke={stroke} fill={innerCircleBgColor} className={outlineClassName} />
                 </>
             )
         } else {
@@ -83,7 +103,7 @@ export default function WheelOutline({
                         fill={bgColor}
                         stroke={stroke}
                         strokeWidth={strokeWidth}
-                        className="" 
+                        className={outlineClassName} 
                     />
                 ))
             )
@@ -91,6 +111,9 @@ export default function WheelOutline({
     }
 
     // ------------ MARKERS ------------ // 
+
+    // Hardcoded prop for potential later integration
+    const markerStyle: "outside" | "inline" | "none" = "outside"
     
     function Markers(): ReactNode[] {
         if (markerStyle === "none") {
@@ -127,14 +150,15 @@ export default function WheelOutline({
                             `}
                             stroke={stroke}
                             strokeWidth={strokeWidth}
+                            className={outlineClassName}
                         />
                         <text
                             x={textPosition.x}
                             y={textPosition.y} 
-                            className="text-xs"
                             fill={stroke}
                             alignmentBaseline={alignmentBaseline}
                             textAnchor={textAnchor}
+                            className={markerClassName}
                         >{marker}</text> 
                     </g> 
                 )
@@ -187,19 +211,17 @@ export default function WheelOutline({
         }
     }
 
-    
-
-
     // ------------ RETURN ------------ //
 
     return (
-        <g id="wheel-outline">
+        <svg width={limitingDimension} height={limitingDimension} overflow="visible" className={svgClassName}>
             <g id="sector-wrapper">
                 {Outline()}
             </g>
             <g id="time-markers-wrapper">
                 {Markers()}
             </g>
-        </g>
+            { children }
+        </svg>
     )
 }

@@ -67,7 +67,7 @@ export default memo(function WheelDaySelector<T extends readonly string[]>({
 
 }: WheelDaySelectorProps<T>) {
 
-    const { state } = useWheelContext()
+    const state = useWheelContext()
 
     if (!state) return
 

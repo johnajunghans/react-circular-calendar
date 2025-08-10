@@ -1,6 +1,6 @@
 import { type Dispatch, type KeyboardEvent, type MouseEvent, type ReactNode, type SetStateAction } from "react"
-import WheelDaySelector from "./wheel-day-selector"
-import RitualInstanceArc from "./ritual-instance-arc";
+import WheelDaySelector from "./wheel-selector"
+import RitualInstanceArc from "./wheel-event";
 import { useMemo } from "react";
 import type { Event } from "../types/event";
 
