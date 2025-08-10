@@ -177,8 +177,8 @@ export default memo(function WheelDaySelector<T extends readonly string[]>({
                             y={xy.y}
                             textAnchor="middle"
                             alignmentBaseline="central"
-                            className={`pointer-events-none ${activeWheel === wheel ? activeTextClassName : textClassName}`}
-                            // className={`${activeWheel === wheel ? "fill-white/80 font-bold" : "fill-white/60"} antialiased text-md pointer-events-none`}
+                            className={`${activeWheel === wheel ? activeTextClassName : textClassName}`}
+                            style={{ pointerEvents: "none" }}
                         >{wheel.slice(0, labelCharacterLength)}</text>
                     )
                 })}
@@ -188,7 +188,7 @@ export default memo(function WheelDaySelector<T extends readonly string[]>({
             {useMiddleButton && 
                 <g id="selector-middle-button-container">
                     <circle
-                        cx={center} cy={center} r={middleButtonRadius}
+                        cx={center} cy={center} r={middleButtonRadiusValue}
                         role="button" tabIndex={0} aria-label="Select Daily Rituals"
                         onClick={(e) => handleMiddleButtonClick(e)}
                         onKeyDown={(e) => {
@@ -198,23 +198,34 @@ export default memo(function WheelDaySelector<T extends readonly string[]>({
                             }
                         }}
                         className={`${middleButtonClassName || pathClassName} ${middleButtonType === "selector" ? middleButtonActiveClassName || activePathClassName : ""}`}
-                        // className={`${activeWheel === middleButtonSelector ? "fill-white/10 stroke-white/50" : "fill-transparent hover:fill-white/5 stroke-white/10 hover:stroke-white/30"} focus:outline-none cursor-pointer`}
                     />
 
-                    {!middleButtonIcon &&
+                    {!middleButtonIcon ?
                         <text
                             x={center}
                             y={center}
                             alignmentBaseline="central"
                             textAnchor="middle"
+                            style={{ pointerEvents: "none" }}
                             className={`${activeWheel === middleButtonSelector ? middleButtonActiveTextClassName || activeTextClassName : middleButtonTextClassName || textClassName}`}
-                            // className={`${activeWheel === middleButtonSelector ? "fill-white/80 font-bold" : "fill-white/60"} antialiased text-md pointer-events-none`}
                         >{middleButtonLabel || middleButtonSelector?.slice(0, labelCharacterLength)}</text> // prefer the middleButtonLabel if truthy with the selector value as a fallback
-                    }
-
-                    {middleButtonIcon && 
-                        <foreignObject width={middleButtonRadiusValue * 2} height={middleButtonRadiusValue * 2} x={center-middleButtonRadiusValue} y={center-middleButtonRadiusValue} className="pointer-events-none">
-                            <div className="flex justify-center items-center w-full h-full">
+                    
+                       : <foreignObject 
+                            width={middleButtonRadiusValue * 2} 
+                            height={middleButtonRadiusValue * 2} 
+                            x={center-middleButtonRadiusValue} 
+                            y={center-middleButtonRadiusValue}
+                            style={{ pointerEvents: "none" }}
+                        >
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    width: "100%",
+                                    height: "100%"
+                                }}
+                            >
                                 {middleButtonIcon}
                             </div>
                         </foreignObject>

@@ -3,13 +3,13 @@ import { calculateSectorTextData, generateSingleArc } from "../functions/wheel-c
 import type { Event } from "../types/event";
 
 // Type for ritual instance arc props - Event without activeWheels
-type RitualInstanceArcProps = Omit<Event<never>, 'activeWheels'> & {
+type WheelEventProps = Omit<Event<never>, 'activeWheels'> & {
     center: number;
     innerCircleRadius: number;
     outerCircleRadius: number;
 };
 
-export default memo(function RitualInstanceSector({
+export default memo(function WheelEvent({
     center,
     innerCircleRadius,
     outerCircleRadius,
@@ -18,7 +18,7 @@ export default memo(function RitualInstanceSector({
     endAngle,
     title,
     fillColor,
-    stroke,
+    strokeColor,
     strokeWidth,
     ariaLabel,
     onClick,
@@ -27,12 +27,11 @@ export default memo(function RitualInstanceSector({
     cornerRadius=6,
     padAngle=0.005,
     radialPadding=3,
-    pathClassName,
+    sectorClassName,
     textClassName
 
-}: RitualInstanceArcProps) {
+}: WheelEventProps) {
 
-    // TODO: account for startingPoint (springPoint)
     // const sp = 6
 
     function calculateSectorData() {
@@ -53,9 +52,9 @@ export default memo(function RitualInstanceSector({
             <path 
                 d={pathData}
                 fill={fillColor}
-                stroke={stroke}
+                stroke={strokeColor}
                 strokeWidth={strokeWidth}
-                className={pathClassName}
+                className={sectorClassName}
                 role="button"
                 tabIndex={0}
                 aria-label={ariaLabel}
@@ -74,7 +73,11 @@ export default memo(function RitualInstanceSector({
                 y={tc.y - center}
                 textAnchor={ft ? "end" : "start"} 
                 alignmentBaseline="central"
-                style={{transform: `rotate(${ft ? ta + 180 : ta}deg)`, transformOrigin: `${tc.x - center}px ${tc.y - center}px`}}
+                style={{
+                    transform: `rotate(${ft ? ta + 180 : ta}deg)`, 
+                    transformOrigin: `${tc.x - center}px ${tc.y - center}px`,
+                    pointerEvents: "none"
+                }}
                 className={textClassName}
             >{title}</text>
         </g>

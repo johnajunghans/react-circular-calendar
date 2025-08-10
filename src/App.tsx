@@ -171,11 +171,10 @@ function CircularCalendar() {
           eventStrokeColor="white"
           eventTextClassName='fill-white'
           svgDefs={defs}
-
-          selectorPathClassName='hover:fill-white/10'
-          selectorTextClassName='fill-white text-sm'
-          selectorActivePathClassName='fill-white'
-          selectorActiveTextClassName='fill-black text-lg'
+          useMiddleButton
+          middleButtonType="selector"
+          middleButtonSelector="Sunday"
+          middleButtonIcon="❤️"
         />
       </WheelOutline>
       

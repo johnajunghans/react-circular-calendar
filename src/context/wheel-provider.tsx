@@ -25,8 +25,6 @@ interface WheelProviderProps {
     resizeDebounceDelay?: number; // number of milliseconds to wait before resizing wheel
 }
 
-// ------------ CONTEXT AND MAIN COMPONENT ------------ //
-
 const WheelContext = createContext<WheelData>(null);
 
 /**

@@ -6,7 +6,9 @@ import type { Event } from "../types/event";
 import { useWheelContext } from "../context/wheel-provider";
 
 interface WheelFunctionProps<T extends readonly string[]> {
+
     // ----------- EVENT PROPS ------------ // 
+
     events: Event<T>[];
 
     // Event Function Props
@@ -26,6 +28,7 @@ interface WheelFunctionProps<T extends readonly string[]> {
     ariaLabel?: string;
 
     // ----------- SELECTOR PROPS ------------ // 
+
     useSelector?: boolean;
     wheels?: T; // readonly string array that will determine T
     activeWheel?: T[number];
@@ -160,9 +163,9 @@ export default function WheelFunction<T extends readonly string[]>({
                     radialPadding={event.radialPadding || eventRadialPadding}
 
                     fillColor={event.fillColor || eventFillColor}
-                    stroke={event.stroke || eventStrokeColor}
+                    strokeColor={event.strokeColor || eventStrokeColor}
                     strokeWidth={event.strokeWidth || eventStrokeWidth}
-                    pathClassName={event.pathClassName || eventPathClassName}
+                    sectorClassName={event.sectorClassName || eventPathClassName}
                     textClassName={event.textClassName || eventTextClassName}
                     ariaLabel={event.ariaLabel || ariaLabel}
                 />

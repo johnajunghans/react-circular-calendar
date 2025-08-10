@@ -14,9 +14,9 @@ export type Event<T extends readonly string[]> = {
 
     // Styling
     fillColor?: string;
-    stroke?: string;
+    strokeColor?: string;
     strokeWidth?: number;
-    pathClassName?: string; 
+    sectorClassName?: string; 
     textClassName?: string;
 
     // Event Handler Props
