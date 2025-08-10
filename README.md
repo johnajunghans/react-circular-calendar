@@ -1,5 +1,8 @@
 # React Circular Calendar Components
 
+[![npm version](https://badge.fury.io/js/react-circular-calendar.svg)](https://badge.fury.io/js/react-circular-calendar)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A flexible and customizable React library for creating circular calendar interfaces. This library provides a set of components that work together to create interactive wheel-based calendar displays, perfect for scheduling applications, time selection interfaces, or any use case requiring a circular date/time picker.
 
 ## Features
@@ -149,3 +152,26 @@ A comprehensive component that handles the functional aspects of the circular ca
 | middleButtonTextClassName | string | No | - | CSS class name for middle button text |
 | middleButtonActiveTextClassName | string | No | - | CSS class name for active middle button text |
 | svgDefs | ReactNode | No | - | Custom SVG definitions for advanced styling |
+
+## TypeScript Support
+
+This library is written in TypeScript and provides full type definitions. All components are fully typed, including proper generic types for event handling and wheel selection.
+
+## Browser Support
+
+This library supports all modern browsers that support:
+- ES6 modules
+- SVG rendering
+- CSS transforms
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Changelog
+
+See [RELEASES](https://github.com/your-username/react-circular-calendar/releases) for a detailed changelog.
