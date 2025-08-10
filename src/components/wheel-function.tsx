@@ -3,6 +3,7 @@ import WheelDaySelector from "./wheel-selector"
 import RitualInstanceArc from "./wheel-event";
 import { useMemo } from "react";
 import type { Event } from "../types/event";
+import { useWheelContext } from "../context/wheel-provider";
 
 interface WheelFunctionProps<T extends readonly string[]> {
     // ----------- EVENT PROPS ------------ // 
@@ -103,6 +104,14 @@ export default function WheelFunction<T extends readonly string[]>({
 
 }: WheelFunctionProps<T>) {
 
+    const state = useWheelContext()
+
+    if (!state) return
+
+    const center = state.dimensions.center
+    const outerCircleRadius = state.dimensions.outerCircleRadius
+    const innerCircleRadius = state.dimensions.innerCircleRadius
+
     // selector error handling
     if (useSelector) {
         if (!wheels) {
@@ -134,6 +143,9 @@ export default function WheelFunction<T extends readonly string[]>({
             {activeEvents.map(event => (
                 <RitualInstanceArc 
                     key={`${event.title}-${event.startAngle}-${event.endAngle}`}
+                    center={center}
+                    innerCircleRadius={innerCircleRadius}
+                    outerCircleRadius={outerCircleRadius}
                     
                     startAngle={event.startAngle}
                     endAngle={event.endAngle}
@@ -159,7 +171,9 @@ export default function WheelFunction<T extends readonly string[]>({
             {/* Selector Component */}
             {useSelector && 
                 <WheelDaySelector 
-                
+                    center={center}
+                    innerCircleRadius={innerCircleRadius}
+
                     // These three values must be defined if the code has reached this point (error handling above verifies this)
                     wheels={wheels!}
                     activeWheel={activeWheel!}
@@ -185,9 +199,7 @@ export default function WheelFunction<T extends readonly string[]>({
                     middleButtonClassName={middleButtonClassName}
                     middleButtonActiveClassName={middleButtonActiveClassName}
                     middleButtonTextClassName={middleButtonTextClassName}
-                    middleButtonActiveTextClassName={middleButtonActiveTextClassName}
-
-                    
+                    middleButtonActiveTextClassName={middleButtonActiveTextClassName} 
                 />
             }
 

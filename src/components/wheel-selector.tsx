@@ -1,9 +1,11 @@
 import { polarToRect } from "../functions/polar-coordinate-functions"
 import { type Dispatch, type KeyboardEvent, type MouseEvent, type ReactNode, type SetStateAction, memo } from "react"
 import { generateArcSequence } from "../functions/wheel-calculation-functions";
-import { useWheelContext } from "../context/wheel-provider";
 
 interface WheelDaySelectorProps<T extends readonly string[]> {
+    center: number;
+    innerCircleRadius: number;
+
     // required props
     wheels: T;
     activeWheel: T[number];
@@ -38,6 +40,9 @@ interface WheelDaySelectorProps<T extends readonly string[]> {
 }
 
 export default memo(function WheelDaySelector<T extends readonly string[]>({
+    center,
+    innerCircleRadius,
+
     wheels,
     activeWheel,
     setActiveWheel,
@@ -66,13 +71,6 @@ export default memo(function WheelDaySelector<T extends readonly string[]>({
     middleButtonAriaLabel
 
 }: WheelDaySelectorProps<T>) {
-
-    const state = useWheelContext()
-
-    if (!state) return
-
-    const center = state.dimensions.center
-    const innerCircleRadius = state.dimensions.innerCircleRadius
 
     // middle button error handling
     if (useMiddleButton) {

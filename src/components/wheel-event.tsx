@@ -1,12 +1,19 @@
 import { memo, useMemo } from "react"
-import { useWheelContext } from "../context/wheel-provider";
 import { calculateSectorTextData, generateSingleArc } from "../functions/wheel-calculation-functions";
 import type { Event } from "../types/event";
 
 // Type for ritual instance arc props - Event without activeWheels
-type RitualInstanceArcProps = Omit<Event<never>, 'activeWheels'>;
+type RitualInstanceArcProps = Omit<Event<never>, 'activeWheels'> & {
+    center: number;
+    innerCircleRadius: number;
+    outerCircleRadius: number;
+};
 
-export default memo(function RitualInstanceSector({ 
+export default memo(function RitualInstanceSector({
+    center,
+    innerCircleRadius,
+    outerCircleRadius,
+    
     startAngle,
     endAngle,
     title,
@@ -24,14 +31,6 @@ export default memo(function RitualInstanceSector({
     textClassName
 
 }: RitualInstanceArcProps) {
-
-    const state = useWheelContext()
-
-    if (!state) return
-
-    const center = state.dimensions.center
-    const outerCircleRadius = state.dimensions.outerCircleRadius
-    const innerCircleRadius = state.dimensions.innerCircleRadius
 
     // TODO: account for startingPoint (springPoint)
     // const sp = 6
