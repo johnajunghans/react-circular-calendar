@@ -1,6 +1,6 @@
 # React Wheel Calendar
 
-[![npm version](https://badge.fury.io/js/react-wheel-calendar.svg)](https://badge.fury.io/js/react-wheel-calendar)
+[![npm version](https://img.shields.io/npm/v/react-wheel-calendar.svg)](https://www.npmjs.com/package/react-wheel-calendar)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Below is a basic description of the project written by Claude. Handwritten project description coming soon.**
