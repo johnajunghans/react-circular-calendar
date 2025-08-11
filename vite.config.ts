@@ -13,7 +13,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts',
-      name: 'ReactCircularCalendar',
+      name: 'ReactWheelCalendar',
       formats: ['es', 'umd'],
       fileName: (format) => `index.${format === 'es' ? 'js' : format === 'umd' ? 'umd.js' : 'js'}`
     },

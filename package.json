@@ -1,5 +1,5 @@
 {
-  "name": "react-circular-calendar",
+  "name": "react-wheel-calendar",
   "version": "1.0.0",
   "description": "A flexible and customizable React library for creating circular calendar interfaces with interactive wheel-based displays, perfect for scheduling applications and time selection interfaces.",
   "type": "module",
@@ -35,12 +35,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/johnajunghans/react-circular-calendar.git"
+    "url": "https://github.com/johnajunghans/react-wheel-calendar.git"
   },
   "bugs": {
-    "url": "https://github.com/johnajunghans/react-circular-calendar/issues"
+    "url": "https://github.com/johnajunghans/react-wheel-calendar/issues"
   },
-  "homepage": "https://github.com/johnajunghans/react-circular-calendar#readme",
+  "homepage": "https://github.com/johnajunghans/react-wheel-calendar#readme",
   "dependencies": {
     "@types/d3-shape": "^3.1.7",
     "d3-shape": "^3.2.0"

@@ -11,6 +11,8 @@ function CircularCalendar() {
   const today = new Date().getDay()
   const [day, setDay] = useState<typeof days[number]>(days[today])
 
+
+
   const events: Event<typeof days>[] = [
     {
         startAngle: 0,
@@ -152,32 +154,43 @@ function CircularCalendar() {
   </defs>
 
   return (
-      <WheelOutline 
-        numberOfSectors={12}
-        markers={markers}
-        startingPoint="left"
-        stroke="#d9d9d9"
-        strokeWidth={1}
-        bgColor='transparent'
-        innerCircleBgColor='black'
-      >
-        <WheelFunction
-          useSelector
-          wheels={days}
-          activeWheel={day}
-          setActiveWheel={setDay}
-          events={events}
-          eventFillColor="black"
-          eventStrokeColor="white"
-          eventTextClassName='fill-white'
-          svgDefs={defs}
-          useMiddleButton
-          middleButtonType="selector"
-          middleButtonSelector="Sunday"
-          middleButtonIcon="❤️"
-        />
-      </WheelOutline>
-      
+    <div className="main-content animate-fade-in-up">
+      {/* Wheel Container */}
+      <div className="wheel-container">
+        <WheelOutline 
+          numberOfSectors={12}
+          markers={markers}
+          startingPoint="left"
+          stroke="rgba(255, 255, 255, 0.2)"
+          strokeWidth={1}
+          bgColor='transparent'
+          innerCircleBgColor='rgba(0, 0, 0, 0.3)'
+          svgClassName="wheel-svg"
+        >
+          <WheelFunction
+            useSelector
+            wheels={days}
+            activeWheel={day}
+            setActiveWheel={setDay}
+            events={events}
+            eventFillColor="black"
+            eventStrokeColor="rgba(255, 255, 255, 0.3)"
+            eventTextClassName='event-text'
+            svgDefs={defs}
+            useMiddleButton
+            middleButtonType="selector"
+            middleButtonSelector="Sunday"
+            middleButtonIcon="🏠"
+            selectorPathClassName="selector-path"
+            selectorActivePathClassName="selector-path active"
+            selectorTextClassName="selector-text"
+            selectorActiveTextClassName="selector-text active"
+            middleButtonClassName="middle-button"
+            middleButtonActiveClassName="middle-button active"
+          />
+        </WheelOutline>
+      </div>
+    </div>
   )
 }
 
@@ -185,16 +198,30 @@ function App() {
   const ref = useRef(null)
 
   return (
-    <div 
-      id='wheel-container'
-      ref={ref}
-      style={{
-        height: "900px"
-      }}
-    >
-      <WheelProvider parentRef={ref}>
-        <CircularCalendar />
-      </WheelProvider>
+    <div className="app-container">
+      {/* Header */}
+      <header className="app-header">
+        <h1 className="app-title">React Wheel Calendar</h1>
+        <p className="app-subtitle">
+          Beautiful circular calendar component with interactive day selection
+        </p>
+      </header>
+
+      {/* Main wheel container */}
+      <div 
+        id='wheel-container'
+        ref={ref}
+        style={{
+          height: "700px",
+          width: "700px",
+          maxWidth: "90vw",
+          maxHeight: "90vw"
+        }}
+      >
+        <WheelProvider parentRef={ref}>
+          <CircularCalendar />
+        </WheelProvider>
+      </div>
     </div>
   )
 }
