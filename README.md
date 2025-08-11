@@ -1,9 +1,11 @@
-# React Circular Calendar Components
+# React Wheel Calendar
 
-[![npm version](https://badge.fury.io/js/react-circular-calendar.svg)](https://badge.fury.io/js/react-circular-calendar)
+[![npm version](https://badge.fury.io/js/react-wheel-calendar.svg)](https://badge.fury.io/js/react-wheel-calendar)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A flexible and customizable React library for creating circular calendar interfaces. This library provides a set of components that work together to create interactive wheel-based calendar displays, perfect for scheduling applications, time selection interfaces, or any use case requiring a circular date/time picker.
+**Below is a basic description of the project written by Claude. Handwritten project description coming soon.**
+
+A flexible and customizable React library for creating wheel-based calendar interfaces. This library provides a set of components that work together to create interactive wheel calendar displays, perfect for scheduling applications, time selection interfaces, or any use case requiring a wheel-based date/time picker.
 
 ## Features
 
@@ -17,14 +19,14 @@ A flexible and customizable React library for creating circular calendar interfa
 ## Installation
 
 ```bash
-npm install react-circular-calendar
+npm install react-wheel-calendar
 ```
 
 ## Quick Start
 
 ```tsx
 import React, { useRef, useState } from 'react';
-import { WheelProvider, WheelOutline, WheelFunction } from 'react-circular-calendar';
+import { WheelProvider, WheelOutline, WheelFunction } from 'react-wheel-calendar';
 
 const events = [
   {
@@ -45,7 +47,7 @@ const events = [
 
 const wheels = ["today", "tomorrow", "this week"] as const;
 
-function CircularCalendar() {
+function WheelCalendar() {
   const parentRef = useRef<HTMLDivElement>(null);
   const [activeWheel, setActiveWheel] = useState<typeof wheels[number]>("today");
 
@@ -73,14 +75,14 @@ function CircularCalendar() {
   );
 }
 
-export default CircularCalendar;
+export default WheelCalendar;
 ```
 
 ## Components
 
 ### WheelProvider
 
-A React Context Provider for managing circular calendar wheel state and dimensions. This provider manages the state of a circular calendar wheel, including its dimensions and provides automatic resize monitoring of the parent container. The wheel dimensions are calculated as percentages of the limiting container dimension.
+A React Context Provider for managing wheel calendar state and dimensions. This provider manages the state of a wheel calendar, including its dimensions and provides automatic resize monitoring of the parent container. The wheel dimensions are calculated as percentages of the limiting container dimension.
 
 | Name | Type | Required | Default Value | Description |
 |------|------|----------|---------------|-------------|
@@ -94,7 +96,7 @@ A React Context Provider for managing circular calendar wheel state and dimensio
 
 ### WheelOutline
 
-A component that renders the structural outline of the circular calendar wheel. It provides the base SVG structure and visual framework for the calendar, including sector divisions and optional text markers.
+A component that renders the structural outline of the wheel calendar. It provides the base SVG structure and visual framework for the calendar, including sector divisions and optional text markers.
 
 | Name | Type | Required | Default Value | Description |
 |------|------|----------|---------------|-------------|
@@ -113,7 +115,7 @@ A component that renders the structural outline of the circular calendar wheel. 
 
 ### WheelFunction
 
-A comprehensive component that handles the functional aspects of the circular calendar, including event rendering and optional wheel selection functionality. It manages the display of events within the wheel structure and provides interactive capabilities.
+A comprehensive component that handles the functional aspects of the wheel calendar, including event rendering and optional wheel selection functionality. It manages the display of events within the wheel structure and provides interactive capabilities.
 
 | Name | Type | Required | Default Value | Description |
 |------|------|----------|---------------|-------------|
@@ -174,4 +176,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Changelog
 
-See [RELEASES](https://github.com/your-username/react-circular-calendar/releases) for a detailed changelog.
+See [RELEASES](https://github.com/your-username/react-wheel-calendar/releases) for a detailed changelog.
