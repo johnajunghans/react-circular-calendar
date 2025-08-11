@@ -3,7 +3,7 @@ import WheelDaySelector from "./wheel-selector"
 import RitualInstanceArc from "./wheel-event";
 import { useMemo } from "react";
 import type { Event } from "../types/event";
-import { useWheelContext } from "../context/wheel-provider";
+import useWheelContext from "../hooks/use-wheel-context";
 
 interface WheelFunctionProps<T extends readonly string[]> {
 
@@ -12,7 +12,7 @@ interface WheelFunctionProps<T extends readonly string[]> {
     events: Event<T>[];
 
     // Event Function Props
-    onClick?: (event: MouseEvent<SVGPathElement>) => void;
+    onClick?: (event: MouseEvent<SVGPathElement> | KeyboardEvent<SVGPathElement>) => void;
     onMouseEnter?: (event: MouseEvent<SVGPathElement>) => void;
     onMouseLeave?: (event: MouseEvent<SVGPathElement>) => void;
 
@@ -109,11 +109,15 @@ export default function WheelFunction<T extends readonly string[]>({
 
     const state = useWheelContext()
 
-    if (!state) return
+    // filters events based on if they include the activeWheel
+    const activeEvents = useMemo(() => {
+            if (!state) return []
+            return events.filter(event => event.activeWheels.includes(activeWheel!))
+        },
+        [events, activeWheel, state]
+      );
 
-    const center = state.dimensions.center
-    const outerCircleRadius = state.dimensions.outerCircleRadius
-    const innerCircleRadius = state.dimensions.innerCircleRadius
+    if (!state) return
 
     // selector error handling
     if (useSelector) {
@@ -131,11 +135,9 @@ export default function WheelFunction<T extends readonly string[]>({
         console.error("You have 'useSelector' set as false but you have also provided a value for another selector prop. You must set 'useSelector' as true for any of the other selector props to be useful.")
     }
 
-    // filters events based on if they include the activeWheel
-    const activeEvents = useMemo(
-      () => events.filter(event => event.activeWheels.includes(activeWheel!)),
-      [events, activeWheel]
-    );
+    const center = state.dimensions.center
+    const outerCircleRadius = state.dimensions.outerCircleRadius
+    const innerCircleRadius = state.dimensions.innerCircleRadius
 
     return (
         <>

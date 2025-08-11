@@ -1,4 +1,4 @@
-import type { MouseEvent } from "react";
+import type { KeyboardEvent, MouseEvent } from "react";
 
 export type Event<T extends readonly string[]> = {
     // Required
@@ -20,7 +20,7 @@ export type Event<T extends readonly string[]> = {
     textClassName?: string;
 
     // Event Handler Props
-    onClick?: (event: MouseEvent<SVGPathElement>) => void;
+    onClick?: (event: MouseEvent<SVGPathElement> | KeyboardEvent<SVGPathElement>) => void;
     onMouseEnter?: (event: MouseEvent<SVGPathElement>) => void;
     onMouseLeave?: (event: MouseEvent<SVGPathElement>) => void;
 

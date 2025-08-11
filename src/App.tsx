@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import './App.css'
 import WheelOutline from './components/wheel-outline'
-import { WheelProvider } from './context/wheel-provider'
+import WheelProvider from './context/wheel-provider'
 import WheelFunction from './components/wheel-function'
 import type { Event } from './types/event'
 

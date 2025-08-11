@@ -1,18 +1,8 @@
-import { createContext, useContext, useMemo, type ReactNode, type RefObject } from "react";
+import { useMemo, type ReactNode, type RefObject } from "react";
 import useResize from "../hooks/use-resize";
+import { WheelContext, type WheelData } from "./wheel-context";
 
-// ------------ LOCAL TYPES ------------ //
-
-type WheelDimensions = {
-    center: number;
-    outerCircleRadius: number;
-    innerCircleRadius: number;
-}
-
-type WheelData = {
-    dimensions: WheelDimensions;
-    limitingDimension: number;
-} | null
+// ------------ PROVIDER TYPES ------------ //
 
 interface WheelProviderProps {
     children: ReactNode;
@@ -24,8 +14,6 @@ interface WheelProviderProps {
     maxDimensions?: number; // maximum size of svg
     resizeDebounceDelay?: number; // number of milliseconds to wait before resizing wheel
 }
-
-const WheelContext = createContext<WheelData>(null);
 
 /**
  * WheelProvider - React Context Provider for managing circular calendar wheel state and dimensions
@@ -53,7 +41,7 @@ const WheelContext = createContext<WheelData>(null);
  * </div>
  * ```
  */
-export const WheelProvider = ({ 
+export default function WheelProvider({ 
     children, 
     parentRef,
     outerCircleSize=90, 
@@ -61,7 +49,7 @@ export const WheelProvider = ({
     minDimensions=0,
     maxDimensions=9999,
     resizeDebounceDelay=100
-}: WheelProviderProps) => {
+}: WheelProviderProps) {
 
     const limitingDimension = useResize(parentRef, {
         debounceDelay: resizeDebounceDelay,
@@ -84,5 +72,3 @@ export const WheelProvider = ({
 
     return <WheelContext.Provider value={state}>{children}</WheelContext.Provider>;
 }
-
-export const useWheelContext = () => useContext(WheelContext);

@@ -34,7 +34,8 @@ export default memo(function WheelEvent({
 
     // const sp = 6
 
-    function calculateSectorData() {
+    // memoized sector data
+    const { pathData, tc, ta, to, ft } = useMemo(() => {
         // returns text data (textCenter, textAngle, textOffset, flipText)
         const { tc, ta, to, ft } = calculateSectorTextData(center, outerCircleRadius, startAngle, endAngle)
 
@@ -42,10 +43,7 @@ export default memo(function WheelEvent({
         const pathData = generateSingleArc(startAngle, endAngle, outerCircleRadius, innerCircleRadius, cornerRadius, padAngle, radialPadding)
 
         return { pathData, tc, ta, to, ft }
-    }
-
-    // memoized sector data
-    const { pathData, tc, ta, to, ft } = useMemo(() => calculateSectorData(), [center, outerCircleRadius, innerCircleRadius, startAngle, endAngle, cornerRadius, padAngle, radialPadding])
+    }, [center, outerCircleRadius, innerCircleRadius, startAngle, endAngle, cornerRadius, padAngle, radialPadding])
 
     return (
         <g transform={`translate(${center}, ${center})`}>
@@ -62,7 +60,7 @@ export default memo(function WheelEvent({
                 onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
-                        if (onClick) onClick(e as any);
+                        if (onClick) onClick(e);
                     }
                 }}
                 onMouseEnter={onMouseEnter}

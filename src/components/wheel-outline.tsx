@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { useMemo } from "react";
 import { polarToRect } from "../functions/polar-coordinate-functions";
 import { generateOutlineLineData, generateOutlineSectorData, type LineData, type SectorData } from "../functions/wheel-calculation-functions";
-import { useWheelContext } from "../context/wheel-provider";
+import useWheelContext from "../hooks/use-wheel-context";
 
 interface WheelOutlineProps {
     children: ReactNode; // Should be WheelFunction

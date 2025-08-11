@@ -1,22 +1,5 @@
 import { useEffect, useState, type RefObject } from "react";
-
-// Written by Claude 4 on 08/07/2025
-/**
- * A simple debounce function that delays the execution of a function until after 
- * a specified delay has passed since the last time it was invoked.
- * 
- * @param func - The function to debounce
- * @param delay - The delay in milliseconds
- * @returns A debounced version of the function
- */
-function debounce<T extends (...args: any[]) => any>(func: T, delay: number): T {
-    let timeoutId: ReturnType<typeof setTimeout>;
-    
-    return ((...args: Parameters<T>) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func(...args), delay);
-    }) as T;
-}
+import { debounce } from "../functions/utility-functions";
 
 
 // Updated by Claude 4 to use the ResizeObserver instead of window.resize on 08/07/2025 
